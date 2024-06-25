@@ -34,6 +34,18 @@ const Navbar = async () => {
                 Dashboard
               </Link>
             </li>
+            <li className="mt-2">
+              <Link href="/adduser" className="hover:text-gray-400">
+                AddUser
+              </Link>
+            </li>
+
+            <li className="mt-2">
+              <Link href="/users" className="hover:text-gray-400">
+                Users
+              </Link>
+            </li>
+
 
             <form
               action={async () => {

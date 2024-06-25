@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import connectDB from "./lib/dbConfig";
-import { User } from "./models/User";
+import { User, UserModel } from "./models/User";
 import { compare } from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -36,7 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         await connectDB();
 
-        const user = await User.findOne({ email }).select("+password +role");
+        const user = await UserModel.findOne({ email }).select("+password +role");
 
         if (!user) {
           throw new Error("Invalid email or password");
@@ -90,10 +90,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         try {
           const { email, name, image, id } = user;
           await connectDB();
-          const alreadyUser = await User.findOne({ email });
+          const alreadyUser = await UserModel.findOne({ email });
 
           if (!alreadyUser) {
-            await User.create({ email, name, image, authProviderId: id });
+            await UserModel.create({ email, name, image, authProviderId: id });
           } else {
             return true;
           }
